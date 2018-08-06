@@ -15,4 +15,4 @@ def path_walker(path):
                                 
 if __name__ == '__main__':
         # place r before file path to convert into raw string
-	path_walker(r'C:\storeman\office\XF001901')
+	path_walker(r'path for files')
