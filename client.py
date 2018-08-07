@@ -3,6 +3,7 @@ import socket
 import os
 import time
 import datetime
+import dir_scanner
 
 def Main():
     host = "127.0.0.1"
@@ -17,12 +18,14 @@ def Main():
     #send in files in from directory
     comp_name = os.environ["COMPUTERNAME"] # grab computer name
     print(comp_name)
-    #read file created by dir_scanner
-    with open("pycache.txt", "r") as file:
-        files_in_dir = file.read()
-    print(files_in_dir)
+    #path to follow
 
     while True:
+        dir_scanner.path_walker(r'C:\storeman\Office\XF001901')
+        #read file created by dir_scanner
+        with open("pycache.txt", "r") as file:
+            files_in_dir = file.read()
+        print(files_in_dir)
         curr_time = str(datetime.datetime.now())
         try:
                 msg = (comp_name + "," + files_in_dir + " " + curr_time)
