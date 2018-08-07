@@ -19,30 +19,33 @@ def threader(conn):
                 # convert data into a str to be documented
                 temp_str = str(data)
                 #temp_str.split(",") creates a list
-                pc_name, files_in_loc = temp_str.split(",")
-                temp = files_in_loc.replace("<","")
-                files_in_loc = temp.replace(">","")
-                        
-                #write to file
-                print("writing data to file ...")
-                print (files_in_loc)
-                html_wrkspc = ("<html>\n<body>\n<h1>The Report</h1>\n<p>" + pc_name + " : " + files_in_loc + "</p>\n</body>\n</html>")
+                print(temp_str)
+                
+                html_wrkspc = ("<html>\n<body>\n<h1>The Report</h1>\n<p>" + temp_str + "</p>\n</body>\n</html>")
                 
                 with open("report.html", "w") as file:
                           file.write(html_wrkspc)
                 
 
 def Main():
-        host  = "127.0.0.1"
+        host  = "10.0.245.161"
         port = 3452
         buffer_time = 1024
 
+        print("Initializing")
         #server socket 
         serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        serv_socket.bind((host, port))
+        try:
+                serv_socket.bind((host, port))
+        except socket.error:
+                print("Unable to create socket")
+
+        print("Socket created")
         #listen for up to 5 connections at once
         serv_socket.listen(5)
-
+        
+        #write to file msg
+        print("writing data to file ...")
         while True:
                 # make connection with clients
                 conn, addr = serv_socket.accept()
