@@ -4,17 +4,17 @@ import time
 import datetime
 
 def path_walker(path):
-        current_time = datetime.datetime.now()
-        count = 0
-        print("Current time is:" + str(current_time) +
-                      "\n -----------------------------")
-        for (root, dir, files) in os.walk(path):
-                for filename in files:
-                        count += 1
-                        return count
-        with open("pycache.txt", "w") as file:
-                file.write(f"num of files: {count}") 
-                                
+        while True:
+                current_time = datetime.datetime.now()
+                print("Current time is:" + str(current_time) +
+                              "\n -----------------------------")
+                # important: make sure count=0 to reset count every call
+                count = 0
+                for root, dirs, files in os.walk('C:\storeman\Office\XF001901'):
+                    count += len(files)
+                with open("pycache.txt", "w") as file:
+                        file.write(f"num of files: {count}")
+                time.sleep(10)
+
 if __name__ == '__main__':
-        # place r before file path to convert into raw string
-	path_walker(r'path_for_files')
+        path_walker(r'C:\storeman\Office\XE001901')
