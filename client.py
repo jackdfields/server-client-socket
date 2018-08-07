@@ -17,7 +17,7 @@ def Main():
 
     while True:
         #send in files in from directory
-        path_walker(r'C:\storeman\Office\XE001901')
+        path_walker(r'C:\storeman\Office\XF001901')
         #read file created by dir_scanner
         with open("pycache.txt", "r") as file:
             files_in_dir = file.read()
