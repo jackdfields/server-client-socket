@@ -12,7 +12,8 @@ def path_walker(path):
                 for filename in files:
                         count += 1
                         return count
-                         
+        with open("pycache.txt", "w") as file:
+                file.write(f"num of files: {count}") 
                                 
 if __name__ == '__main__':
         # place r before file path to convert into raw string
