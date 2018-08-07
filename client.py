@@ -1,7 +1,6 @@
 """ Client connection to Server to send/receive information """
 import socket
 import os
-import dir_scanner
 import time
 import datetime
 
@@ -17,7 +16,11 @@ def Main():
     
     #send in files in from directory
     comp_name = os.environ["COMPUTERNAME"] # grab computer name
-    files_in_dir = str(dir_scanner)
+    print(comp_name)
+    #read file created by dir_scanner
+    with open("pycache.txt", "r") as file:
+        files_in_dir = file.read()
+    print(files_in_dir)
 
     while True:
         curr_time = str(datetime.datetime.now())
