@@ -38,7 +38,7 @@ def threader(conn):
             file.write(html_wrkspc)
 
 def Main():
-    host = "10.0.245.161"
+    host = "127.0.0.1"
     port = 3452
     buffer_time = 1024
     
