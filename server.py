@@ -3,58 +3,73 @@
                 received the message"""
 import socket
 import sys
-import traceback
 from _thread import *
 import threading
+import time
+from pySql import PySQLTrans
 
 # threaded connection
 def threader(conn):
-        while True:
-                data = conn.recv(1024).decode()
-                #if data not received
-                if not data:
-                        print("no data received.")
-                        break
+    while True:
 
-                # convert data into a str to be documented
-                temp_str = str(data)
-                #temp_str.split(",") creates a list
-                print(temp_str)
-                
-                html_wrkspc = ("<html>\n<body>\n<h1>The Report</h1>\n<p>" + temp_str + "</p>\n</body>\n</html>")
-                
-                with open("report.html", "w") as file:
-                          file.write(html_wrkspc)
-                
+        data = conn.recv(1024).decode()
+        # if data not received
+        if not data:
+            print("no data received.")
+            break
+        #print(data)
+
+        # convert data into a str to be documented
+        temp_str = str(data)
+        comp_name, num_files = temp_str.split(": ")
+
+        #transfer to SQL Server
+        db_acct = PySQLTrans(comp_name, num_files)
+        db_acct.sql_db_upload()
+        # Grab data
+        report = db_acct.sql_db_dowload()
+
+        with open('report_dialogue.txt', 'r') as file:
+            html_reader = file.read()
+
+        html_wrkspc = ("<html>\n<body>\n<h1>The Report</h1>\n<p>" + html_reader +"</p>\n</body>\n</html>")
+
+        with open("report.html", "w") as file:
+            file.write(html_wrkspc)
 
 def Main():
-        host  = "10.0.245.161"
-        port = 3452
-        buffer_time = 1024
+    host = "10.0.245.161"
+    port = 3452
+    buffer_time = 1024
+    
+    print("Initializing")
+    # server socket
+    serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        serv_socket.bind((host, port))
+    except socket.error:
+        print("Unable to create socket")
 
-        print("Initializing")
-        #server socket 
-        serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        try:
-                serv_socket.bind((host, port))
-        except socket.error:
-                print("Unable to create socket")
+    print("Socket created")
+    # listen for up to 5 connections at once
+    serv_socket.listen(5)
 
-        print("Socket created")
-        #listen for up to 5 connections at once
-        serv_socket.listen(5)
+    # write to file msg
+    print("Awaiting connections...")
+  
+    while True:
+
+        # make a queue that adds users to the right, pops the left
+        # makes each one popped wait 5 seconds before being acticvated
+        # make connection with clients
+        conn, addr = serv_socket.accept()
         
-        #write to file msg
-        print("writing data to file ...")
-        while True:
-                # make connection with clients
-                conn, addr = serv_socket.accept()
-                print ("Connection from: %s" % addr[0])
-                
-                # first arg is function to call, second is tuple cont pos
-                start_new_thread(threader, (conn,))
+        print("Connection from: %s" % addr[0])
+            
+        start_new_thread(threader, (conn,))
 
-        serv_socket.close()
+    serv_socket.close()
+
 
 if __name__ == '__main__':
-        Main()
+    Main()
