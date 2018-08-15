@@ -9,6 +9,8 @@ import time
 from pySql import PySQLTrans
 
 # threaded connection
+
+
 def threader(conn):
     while True:
 
@@ -17,13 +19,13 @@ def threader(conn):
         if not data:
             print("no data received.")
             break
-        #print(data)
+        # print(data)
 
         # convert data into a str to be documented
         temp_str = str(data)
         comp_name, num_files = temp_str.split(": ")
 
-        #transfer to SQL Server
+        # transfer to SQL Server
         db_acct = PySQLTrans(comp_name, num_files)
         db_acct.sql_db_upload()
         # Grab data
@@ -32,48 +34,51 @@ def threader(conn):
         with open('report_dialogue.txt', 'r') as file:
             html_reader = file.read()
 
-        html_wrkspc = ('<!DOCTYPE html>\n'
-                       '<html>\n'
-                       '<head>\n'
-                       '<meta http-equiv="refresh" content="5">\n'
-                       '<style>\n'
-                       'table {\n'
-                       '\tfont-family: times, sans-serif;\n'
-                       '\tborder-collapse: collapse;\n'
-                       '\twidth: 100%;\n'
-                       '}\n'
-                       'td, th {\n'
-                       '\tborder: 1px solid #dddddd;\n'
-                       '\ttext-align: middle;\n'
-                       '\tpadding: 5px;\n'
-                       '}\n'
-                       'tr:nth-child(even) {\n'
-                       '\tbackground: #C1C1C1;\n'
-                       '}\n'
-                       '</style>\n'
-                       '</head>\n'
-                       '<body>\n\n'
-                       
-                       '<h2>Dashboard</h2>\n'
-                       '<table>\n'
-                       '  <tr>\n'
-                       '\t<th>Machine</th>\n'
-                       '\t<th>Files</th>\n'
-                       '\t<th>Time Stamp</th>\n'
-                       '  </tr>\n'
-                        + html_reader + 
-                       '</table>\n'
-                       '</body>\n'
-                       '</html>\n')
-        
+        # set up HTML Script
+        html_wrkspc = (
+            '<!DOCTYPE html>\n'
+            '<html>\n'
+            '<head>\n'
+            '<meta http-equiv="refresh" content="5">\n'
+            '<style>\n'
+            'table {\n'
+            '\tfont-family: Anevir, sans-serif;\n'
+            '\tborder-collapse: collapse;\n'
+            '\twidth: 100%;\n'
+            '}\n'
+            'td, th {\n'
+            '\tborder: 1px solid #000000;\n'
+            '\ttext-align: middle;\n'
+            '\tpadding: 5px;\n'
+            '}\n'
+            'tr:nth-child(even) {\n'
+            '\tbackground: #C1C1C1;\n'
+            '}\n'
+            '</style>\n'
+            '</head>\n'
+            '<body>\n\n'
+            '<div style="background-color:#2980B9;color:black;padding:10px;">'
+            '<h2 align="center">Dashboard</h2>\n'
+            '</div>\n'
+            '<table>\n'
+            '  <tr>\n'
+            '\t<th>Machine</th>\n'
+            '\t<th>Files in folder</th>\n'
+            '\t<th>Time Stamp</th>\n'
+            '\t<th>Time Since Check-in</th>\n'
+            '  </tr>\n' + html_reader + '</table>\n'
+            '</body>\n'
+            '</html>\n')
+
         with open("report.html", "w") as file:
             file.write(html_wrkspc)
 
+
 def Main():
-    host = "127.0.0.1"
+    host = "10.0.245.161"
     port = 3452
     buffer_time = 1024
-    
+
     print("Initializing")
     # server socket
     serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -88,16 +93,16 @@ def Main():
 
     # write to file msg
     print("Awaiting connections...")
-  
+
     while True:
 
         # make a queue that adds users to the right, pops the left
         # makes each one popped wait 5 seconds before being acticvated
         # make connection with clients
         conn, addr = serv_socket.accept()
-        
+
         print("Connection from: %s" % addr[0])
-            
+
         start_new_thread(threader, (conn,))
 
     serv_socket.close()

@@ -6,7 +6,7 @@ import time
 import datetime
 
 def Main():
-    host = "127.0.0.1"
+    host = "10.0.245.161"
     port = 3452
     buffer_time = 1024
     
@@ -17,14 +17,14 @@ def Main():
 
     while True:
         #send in files in from directory
-        path_walker(r'C:\storeman\Office\XF001901')
+        path_walker(r'C:\storeman\Office\XE001901')
         #read file created by dir_scanner
         with open("pycache.txt", "r") as file:
             files_in_dir = file.read()
         print(files_in_dir)
         curr_time = str(datetime.datetime.now())
         try:
-                msg = (files_in_dir + " " + curr_time)
+                msg = (files_in_dir)
                 client_socket.send(msg.encode())
                 time.sleep(5)
         except socket.error:
@@ -51,7 +51,7 @@ def path_walker(path):
         for root, dirs, files in os.walk('C:\storeman\Office\XF001901'):
                 count += len(files)
         with open("pycache.txt", "w") as file:
-                file.write(f"{comp_name}: num of files: {count}")
+                file.write(f"{comp_name}: {count}")
                 
 if __name__ == "__main__":
         Main()
