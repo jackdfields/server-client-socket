@@ -14,7 +14,7 @@ class PySQLTrans():
         #Insert Values to the Database
         #establish connection
         cxcn = pypyodbc.connect('Driver={SQL Server};'
-                                'Server=CASHLAB-001901\LOCSMS;'
+                                'Server=servername;'
                                 'Database=STORESQL;'
                                 'Trusted_Connection=yes;')
 
@@ -35,14 +35,15 @@ class PySQLTrans():
         # Retrieve Values from DB
         #EST new connection
         cxcn = pypyodbc.connect('Driver={SQL Server};'
-                                'Server=CASHLAB-001901\LOCSMS;'
+                                'Server=servername;'
                                 'Database=STORESQL;'
                                 'Trusted_Connection=yes;')
 
         #create cursor
         cursor = cxcn.cursor()
         
-        SQLCommand = ('SELECT ComputerName, NumOfFiles, Tran_Date FROM CLIENT_MONITOR')
+        SQLCommand = ('SELECT ComputerName, NumOfFiles, Tran_Date FROM CLIENT_MONITOR\n'+
+                      'ORDER BY ComputerName;')
 
         cursor.execute(SQLCommand)
         #Fetch results
@@ -53,10 +54,19 @@ class PySQLTrans():
             for row in results:
                C_name, N_files, T_date = row
                actual_time,removed = str(T_date).split('.')
-               report_dialogue = (C_name , N_files, actual_time) 
-               file.write('<p>'+C_name + " " +  N_files + " " + actual_time+'<p>''\n')
-
-           
+               report_dialogue = (C_name , N_files, actual_time)
+               
+               file.write('  <tr>\n' +
+                          '\t<td>' +
+                          C_name +
+                          '</td>\n' +
+                          '\t<td>' +
+                          N_files +
+                          '</td>\n' +
+                          '\t<td>' +
+                          actual_time +
+                          '</td>\n</tr>\n')
 
         #close connection
         cxcn.close()
+ 

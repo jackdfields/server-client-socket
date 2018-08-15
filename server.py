@@ -32,8 +32,40 @@ def threader(conn):
         with open('report_dialogue.txt', 'r') as file:
             html_reader = file.read()
 
-        html_wrkspc = ("<html>\n<body>\n<h1>The Report</h1>\n<p>" + html_reader +"</p>\n</body>\n</html>")
-
+        html_wrkspc = ('<!DOCTYPE html>\n'
+                       '<html>\n'
+                       '<head>\n'
+                       '<meta http-equiv="refresh" content="5">\n'
+                       '<style>\n'
+                       'table {\n'
+                       '\tfont-family: times, sans-serif;\n'
+                       '\tborder-collapse: collapse;\n'
+                       '\twidth: 100%;\n'
+                       '}\n'
+                       'td, th {\n'
+                       '\tborder: 1px solid #dddddd;\n'
+                       '\ttext-align: middle;\n'
+                       '\tpadding: 5px;\n'
+                       '}\n'
+                       'tr:nth-child(even) {\n'
+                       '\tbackground: #C1C1C1;\n'
+                       '}\n'
+                       '</style>\n'
+                       '</head>\n'
+                       '<body>\n\n'
+                       
+                       '<h2>Dashboard</h2>\n'
+                       '<table>\n'
+                       '  <tr>\n'
+                       '\t<th>Machine</th>\n'
+                       '\t<th>Files</th>\n'
+                       '\t<th>Time Stamp</th>\n'
+                       '  </tr>\n'
+                        + html_reader + 
+                       '</table>\n'
+                       '</body>\n'
+                       '</html>\n')
+        
         with open("report.html", "w") as file:
             file.write(html_wrkspc)
 
