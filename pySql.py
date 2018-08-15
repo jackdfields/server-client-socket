@@ -79,7 +79,7 @@ class PySQLTrans():
                               '</td>\n' +
                               '\t<td bgcolor=#FF0000; align=center>' +
                               str(time_since_checkin) +
-                              '</td>\n</tr>\n')
+                              ' minutes </td>\n</tr>\n')
                    
                # check if files aren't updating
                elif int(Num_files) > 10:
@@ -95,8 +95,7 @@ class PySQLTrans():
                               '</td>\n' +
                               '\t<td align=center>' +
                               str(time_since_checkin) +
-                              
-                              '</td>\n</tr>\n')
+                              ' minutes </td>\n</tr>\n')
                    
                # check if files and check-in are not coming in
                elif int(Num_files) > 10 and time_since_checkin > 5:
@@ -112,7 +111,7 @@ class PySQLTrans():
                               '</td>\n' +
                               '\t<td bgcolor=#FF0000; align=center>' +
                               str(time_since_checkin) +
-                              '</td>\n</tr>\n')
+                              ' minutes </td>\n</tr>\n')
 
                # write normally
                else:
@@ -128,7 +127,7 @@ class PySQLTrans():
                               '</td>\n' +
                               '\t<td align=center>' +
                               str(time_since_checkin) +
-                              '</td>\n</tr>\n')
+                              ' minutes </td>\n</tr>\n')
                     
         # close connection
         cxcn.close()
