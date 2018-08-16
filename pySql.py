@@ -9,7 +9,6 @@ class PySQLTrans():
     def __init__(self, comp_name, num_of_files):
         self.comp_name = comp_name
         self.num_of_files = num_of_files
-
         
     def sql_db_upload(self):    
         # Insert Values to the Database
