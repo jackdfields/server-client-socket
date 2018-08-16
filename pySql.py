@@ -1,7 +1,6 @@
 # pypyodbc connection to SQL
 
 import pypyodbc
-import csv
 import datetime
 
 class PySQLTrans():
