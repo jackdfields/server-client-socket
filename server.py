@@ -75,7 +75,7 @@ def threader(conn):
 
 
 def Main():
-    host = "10.0.245.161"
+    host = socket.gethostname()
     port = 3452
     buffer_time = 1024
 
