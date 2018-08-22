@@ -80,15 +80,15 @@ class PySQLTrans():
                               ' minutes </td>\n</tr>\n')
                    
                # check if files aren't updating
-               elif int(Num_files) > 10:
+               elif int(Num_files) > 20:
                    file.write('  <tr>\n' +
                               '\t<td align=center>' +
                               Comp_name +
                               '</td>\n' +
-                              '\t<td align=center>' +
+                              '\t<td bgcolor=#FF0000; align=center>' +
                               Num_files +
                               '</td>\n' +
-                              '\t<td bgcolor=#FF0000; align=center>' +
+                              '\t<td align=center>' +
                               updated_time +
                               '</td>\n' +
                               '\t<td align=center>' +
@@ -96,7 +96,7 @@ class PySQLTrans():
                               ' minutes </td>\n</tr>\n')
                    
                # check if files and check-in are not coming in
-               elif int(Num_files) > 10 and time_since_checkin > 5:
+               elif int(Num_files) > 20 and time_since_checkin > 5:
                    file.write('  <tr>\n' +
                               '\t<td align=center>' +
                               Comp_name +
