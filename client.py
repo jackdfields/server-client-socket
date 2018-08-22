@@ -15,6 +15,10 @@ def Main():
 
     connected = True
 
+	# create log files for errors
+	file = open("log.txt", "w") 
+	file.close()
+	
     while True:
         #send in files in from directory
         path_walker(r'C:\storeman\Office\XE001901')
@@ -29,6 +33,8 @@ def Main():
                 time.sleep(5)
         except socket.error:
             #reconnnect
+			with open("log.txt", "a") as file:
+				file.write("Disconnected at: " + curr_time)
             print("Connection Lost - attempting to reconnect")
             connected = False
             #recreate/connect socket
