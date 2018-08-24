@@ -90,9 +90,6 @@ def Main():
     print("Awaiting connections...")
 
     while True:
-
-        # make a queue that adds users to the right, pops the left
-        # makes each one popped wait 5 seconds before being acticvated
         # make connection with clients
         conn, addr = serv_socket.accept()
 
@@ -101,7 +98,6 @@ def Main():
         start_new_thread(threader, (conn,))
 
     serv_socket.close()
-
 
 if __name__ == '__main__':
     Main()
