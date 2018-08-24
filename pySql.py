@@ -3,7 +3,7 @@
 import pypyodbc
 import datetime
 
-class PySQLTrans():
+class PySQLTrans:
     """ send client data to database """
     def __init__(self, comp_name, num_of_files):
         self.comp_name = comp_name
