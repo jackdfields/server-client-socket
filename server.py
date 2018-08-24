@@ -2,14 +2,10 @@
                 this program receives a message and sends it back in full caps to confirm that it
                 received the message"""
 import socket
-import sys
 from _thread import *
-import threading
-import time
 from pySql import PySQLTrans
 
 # threaded connection
-
 
 def threader(conn):
     while True:
@@ -19,7 +15,6 @@ def threader(conn):
         if not data:
             print("no data received.")
             break
-        # print(data)
 
         # convert data into a str to be documented
         temp_str = str(data)
